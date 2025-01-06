@@ -42,7 +42,7 @@ void apiClient::setPayload(const nlohmann::json& payload) {
     this->payload = payload;
 }
 
-std::string apiClient::sendGETRequest() {
+std::string apiClient::sendGETRequest() const {
     const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
 
     httplib::Result res;
@@ -65,7 +65,7 @@ std::string apiClient::sendGETRequest() {
     return "Error: " + errorToString(res.error());
 }
 
-std::string apiClient::sendPOSTRequest() {
+std::string apiClient::sendPOSTRequest() const {
     // TODO: Add const std::string& apiToken to handle bearer tokens
     // Set the Authorization and Content-Type headers
     /*
@@ -114,7 +114,7 @@ std::string apiClient::sendPOSTRequest() {
     return "Error: " + errorToString(res.error());
 }
 
-std::string apiClient::errorToString(httplib::Error err) {
+std::string apiClient::errorToString(const httplib::Error& err) const {
     switch (err) {
         case httplib::Error::Success:
             return "Success";

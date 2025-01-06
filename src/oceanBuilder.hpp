@@ -12,7 +12,7 @@ public:
 
 private:
     // Internal function to remove first and last characters from a string
-    std::string dropFirstAndLast(const std::string& str);
+    std::string dropFirstAndLast(const std::string& str) const;
 
     // Internal function to get a random key from a JSON file
     static std::string getRandomFromJson();

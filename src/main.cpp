@@ -1,7 +1,7 @@
+#include <csignal>
 #include <iostream>
 #include <thread>
 #include <vector>
-#include <csignal>
 
 #include "cliHelper.hpp"
 #include "threadWorks.hpp"
