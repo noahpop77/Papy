@@ -99,12 +99,14 @@ json matchBuilder::randomMatch() {
 }
 
 // Internal function to remove the first and last characters of a string
-std::string matchBuilder::dropFirstAndLast(const std::string& str) const {
+// static
+std::string matchBuilder::dropFirstAndLast(const std::string& str) {
     if (str.length() > 2) { return str.substr(1, str.length() - 2); }
     return ""; // Return an empty string if the input is too short
 }
 
 // Static helper function to get a random key from a given JSON file
+// static
 std::string matchBuilder::getRandomFromJson(const std::string& jsonString) {
     json items;
 
