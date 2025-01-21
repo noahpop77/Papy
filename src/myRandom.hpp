@@ -3,7 +3,7 @@
 #include <random>
 #include <string>
 
-#include "dependencies/json.hpp"
+#include "keyMapping.hpp"
 
 class myRandom {
 public:
@@ -20,10 +20,7 @@ public:
     // Generates a random boolean (true or false)
     static bool getRandomBool();
 
-
-    static bool getKeysFromJsonObject(std::vector<std::string>& keys, const nlohmann::json& jsonObject);
-
-    static bool getRandomVectorFromJSON(std::vector<std::string>& participantData, const nlohmann::json& jsonObject, size_t count);
+    static bool getRandomVectorFromJSON(std::vector<std::string>& participantData, keyMapping::MappingTemplate mappingTemplate, size_t count);
 
 private:
     static std::random_device rd;  // Seed source

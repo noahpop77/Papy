@@ -4,6 +4,7 @@
 
 #include "dependencies/json.hpp"
 
+#include "keyMapping.hpp"
 #include "mapping.hpp"
 #include "myRandom.hpp"
 
@@ -37,19 +38,19 @@ json matchBuilder::randomMatch() {
 
     // Batch fetching random values to save on runtime massively
     std::vector<std::string> participantItems;
-    myRandom::getRandomVectorFromJSON(participantItems, mapping::ITEMS_JSON, 70);
+    myRandom::getRandomVectorFromJSON(participantItems, keyMapping::MappingTemplate::CHAMPIONS_JSON, 70);
 
     std::vector<std::string> participantChamp;
-    myRandom::getRandomVectorFromJSON(participantChamp, mapping::CHAMPIONS_JSON, 10);
+    myRandom::getRandomVectorFromJSON(participantChamp, keyMapping::MappingTemplate::CHAMPIONS_JSON, 10);
 
     std::vector<std::string> participantSummoners;
-    myRandom::getRandomVectorFromJSON(participantSummoners, mapping::SUMMMONERS_JSON, 20);
+    myRandom::getRandomVectorFromJSON(participantSummoners, keyMapping::MappingTemplate::SUMMMONERS_JSON, 20);
 
     std::vector<std::string> participantKeystone;
-    myRandom::getRandomVectorFromJSON(participantKeystone, mapping::KEYSTONES_JSON, 10);
+    myRandom::getRandomVectorFromJSON(participantKeystone, keyMapping::MappingTemplate::KEYSTONES_JSON, 10);
 
     std::vector<std::string> participantSecondary;
-    myRandom::getRandomVectorFromJSON(participantSecondary, mapping::SECONDARY_RUNES_JSON, 10);
+    myRandom::getRandomVectorFromJSON(participantSecondary, keyMapping::MappingTemplate::SECONDARY_RUNES_JSON, 10);
 
     // Will loop 10 times, once for each participant in game
     for (json& participant : matchTemplate["info"]["participants"]) {
