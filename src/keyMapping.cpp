@@ -41,13 +41,13 @@ bool getKeysFromJsonObject(std::vector<std::string> &keys, const nlohmann::json 
     return true;
 }
 
-}  // namespace
-
 static std::vector<std::string> keystonesJsonKeys;
 static std::vector<std::string> secondaryRunesJsonKeys;
 static std::vector<std::string> summonersJsonKeys;
 static std::vector<std::string> itemsJsonKeys;
 static std::vector<std::string> championsJsonKeys;
+
+}  // namespace
 
 void preProcessJsonToKeys() {
     getKeysFromJsonObject(keystonesJsonKeys, mapping::KEYSTONES_JSON);
