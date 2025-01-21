@@ -70,6 +70,7 @@ std::vector<std::string>* getKeysForJsonTemplate(MappingTemplate mappingTemplate
     case MappingTemplate::CHAMPIONS_JSON:
         return &championsJsonKeys;
     default:
+        std::cerr << "Error: Invalid JSON template requested." << std::endl;
         return nullptr;
     }
 }

@@ -1,5 +1,6 @@
 #include "myRandom.hpp"
 
+#include <iostream>
 #include <random>
 #include <string>
 
@@ -56,9 +57,15 @@ bool myRandom::getRandomVectorFromJSON(std::vector<std::string>& participantData
 
     // We only care about the keys of this JSON object.
     std::vector<std::string>* keys = keyMapping::getKeysForJsonTemplate(mappingTemplate);
-    if (!keys) {
-        return false;
+    if (!keys || keys->empty()) {
+        std::cerr << "Error: Could not get keys for JSON template." << std::endl;
+        if (!keys) {
+            std::cerr << "Error: keys is null." << std::endl;
+        } else if (keys->empty()) {
+            std::cerr << "Error: keys is empty." << std::endl;
+        }
 
+        return false;
     }
 
     std::uniform_int_distribution<> distrib(0, keys->size() - 1);
