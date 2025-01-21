@@ -38,7 +38,7 @@ json matchBuilder::randomMatch() {
 
     // Batch fetching random values to save on runtime massively
     std::vector<std::string> participantItems;
-    myRandom::getRandomVectorFromJSON(participantItems, keyMapping::MappingTemplate::CHAMPIONS_JSON, 70);
+    myRandom::getRandomVectorFromJSON(participantItems, keyMapping::MappingTemplate::ITEMS_JSON, 70);
 
     std::vector<std::string> participantChamp;
     myRandom::getRandomVectorFromJSON(participantChamp, keyMapping::MappingTemplate::CHAMPIONS_JSON, 10);
