@@ -4,10 +4,10 @@
 #include <csignal>
 
 #include "cliHelper.hpp"
+#include "keyMapping.hpp"
 #include "threadWorks.hpp"
 
 int main(int argc, char* argv[]) {
-    
     // Base variables that are altered based off CLI arguments
     int numThreads = 1, payloadCount = 0, rateLimit = 0, ramp = 0, spike = 0;
     bool verbose = false;
@@ -20,6 +20,8 @@ int main(int argc, char* argv[]) {
     // Signal handler controlling ctl + c program halting
     signal(SIGINT, threadWorks::signalHandler);
     std::cout << "Program is running. Press Ctrl+C to stop.\n";
+
+    keyMapping::preProcessJsonToKeys();
 
     // Launch threads
     std::vector<std::thread> threads;

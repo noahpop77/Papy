@@ -4,7 +4,7 @@
 #include <random>
 #include <string>
 
-#include "dependencies/json.hpp"
+#include "keyMapping.hpp"
 
 // Constructor to initialize the random number generator with a seed.
 // These are declared static so there is only one instance across all objects
@@ -52,55 +52,30 @@ bool myRandom::getRandomBool() {
     return distrib(gen) == 1;
 }
 
-
-bool myRandom::getKeysFromJsonObject(std::vector<std::string>& keys, const nlohmann::json& jsonObject) {
-
-    if (jsonObject.empty()) {
-        std::cerr << "Error: items JSON is empty!" << std::endl;
-        return false;
-    }
-
-    if (!jsonObject.is_object()) {
-        std::cerr << "Error: 'items' is not a valid JSON object!" << std::endl;
-        return false;
-    }
-
-    for (auto it = jsonObject.begin(); it != jsonObject.end(); ++it) {
-        if (!it.key().empty()) {
-            keys.push_back(it.key());
-        } else {
-            std::cerr << "Warning: Found an invalid key in the JSON object." << std::endl;
-            return false;
-        }
-    }
-
-    return true;
-}
-
-bool myRandom::getRandomVectorFromJSON(std::vector<std::string>& participantData, const nlohmann::json& jsonObject, size_t count) {
+bool myRandom::getRandomVectorFromJSON(std::vector<std::string>& participantData, keyMapping::MappingTemplate mappingTemplate, size_t count) {
     // We know we'll need exactly count elements, so reserve space for them
     // to reduce the number of reallocations.
     participantData.reserve(count);
 
     // We only care about the keys of this JSON object.
-    std::vector<std::string> keys;
-    bool success = getKeysFromJsonObject(keys, jsonObject);
+    std::vector<std::string>* keys = keyMapping::getKeysForJsonTemplate(mappingTemplate);
+    if (!keys || keys->empty()) {
+        std::cerr << "Error: Could not get keys for JSON template." << std::endl;
+        if (!keys) {
+            std::cerr << "Error: keys is null." << std::endl;
+        } else if (keys->empty()) {
+            std::cerr << "Error: keys is empty." << std::endl;
+        }
 
-    if (!success) {
         return false;
     }
 
-    // std::random_device randomDevice;
-    // std::mt19937 generate(randomDevice());
-    std::uniform_int_distribution<> distrib(0, keys.size() - 1);
+    std::uniform_int_distribution<> distrib(0, keys->size() - 1);
 
     for (int i = 0; i < count; i++) {
         int randomIndex = distrib(gen);
-        // int index = randomIndex % keys.size();
-        participantData.push_back(keys[randomIndex]);
-        //participantData.push_back(keys.at(index));
+        participantData.push_back((*keys)[randomIndex]);
     }
 
     return true;
 }
-
