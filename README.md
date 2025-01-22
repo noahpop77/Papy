@@ -486,6 +486,9 @@ for (size_t i = 0; i < length; ++i) {
 return randomStr;
 ```
 
+- at 8.4k
+- seg faults atm, FIND THAT SEG FAULT!!!!!!!!!!!!!!!!!!!!!!
+
 Little present if you read all the way to the end:
 
 <div align="center">

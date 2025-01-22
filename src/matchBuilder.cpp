@@ -1,7 +1,7 @@
 #include "matchBuilder.hpp"
 
 #include <string>
-
+#include <iostream>
 #include "dependencies/json.hpp"
 
 #include "keyMapping.hpp"
