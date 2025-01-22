@@ -159,5 +159,4 @@ void threadWorks::runWorkerThread(const std::string& targetURL, const std::strin
             std::this_thread::sleep_for(std::chrono::milliseconds(myRandom::generateRandomInt(0, spike)));
         }
     }
-    
 }
