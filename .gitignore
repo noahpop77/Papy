@@ -5,3 +5,5 @@ bin
 obj
 chaosTesting
 docs/drawio
+/benchmarks/node_modules
+/benchmarks/package-lock.json
