@@ -40,9 +40,6 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES_REL = $(SRC_FILES:$(SRC_DIR)/%.cpp=$(OBJ_DIR_REL)/%.o)
 OBJ_FILES_DEV = $(SRC_FILES:$(SRC_DIR)/%.cpp=$(OBJ_DIR_DEV)/%.o)
 
-# Track build dependencies
-DEP_FILES = $(SRC_FILES:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.d)
-
 # Output executable
 TARGET_REL = $(BIN_DIR_REL)/papy
 TARGET_DEV = $(BIN_DIR_DEV)/papy
@@ -70,6 +67,10 @@ $(OBJ_DIR_REL)/%.o: $(SRC_DIR)/%.cpp | directories
 $(OBJ_DIR_DEV)/%.o: $(SRC_DIR)/%.cpp | directories
 	$(CXX) $(CXXFLAGS_DEV) -c $< -o $@
 
+# Track build dependencies
+DEP_FILES = $(SRC_FILES:$(SRC_DIR)/%.cpp=$(OBJ_DIR_REL)/%.d)
+-include $(DEP_FILES)
+DEP_FILES = $(SRC_FILES:$(SRC_DIR)/%.cpp=$(OBJ_DIR_DEV)/%.d)
 -include $(DEP_FILES)
 
 # Clean up object files and executable (dep files too for safity, they take nothing to create but can break build if something is messed up)
