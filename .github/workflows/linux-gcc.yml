@@ -1,0 +1,20 @@
+name: Linux GCC Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ libssl-dev zlib1g-dev
+
+      - name: Build Debug
+        run: make dev -j4
+
+      - name: Build Release
+        run: make rel -j4
