@@ -88,7 +88,7 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
         // Catches payload not found errors essentially. If it can not parse it
         // then it was mostly not found or malformed.
         try {
-            json jsonPayload = json::parse(f);
+            jsonPayload = json::parse(f);
         } catch (const nlohmann::json_abi_v3_11_3::detail::parse_error& e) {
             std::lock_guard<std::mutex> lock(errorMutex);
             std::cerr << "Parsing Error: Payload file not found or incorrect JSON" << std::endl;
