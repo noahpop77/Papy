@@ -41,7 +41,23 @@ void apiClient::setPayload(const nlohmann::json& payload) {
     this->payload = payload;
 }
 
+static constexpr const bool IS_SERVERLESS = true;
+
+#include <chrono>
+#include <thread>
+
+namespace {
+	void shortsleep() {
+		std::this_thread::sleep_for(std::chrono::milliseconds(2));
+	}
+}  // namespace
+
 std::string apiClient::sendGETRequest() {
+    if (IS_SERVERLESS) {
+        shortsleep();
+	return "(empty response)";
+    }
+
     const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
 
     httplib::Result res;
@@ -65,6 +81,11 @@ std::string apiClient::sendGETRequest() {
 }
 
 std::string apiClient::sendPOSTRequest() {
+    if (IS_SERVERLESS) {
+        shortsleep();
+	return "(empty response)";
+    }
+
     // TODO: Add const std::string& apiToken to handle bearer tokens
     // Set the Authorization and Content-Type headers
     /*
