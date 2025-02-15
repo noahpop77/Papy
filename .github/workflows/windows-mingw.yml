@@ -12,10 +12,12 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
-          install: mingw-w64-x86_64-gcc mingw-w64-x86_64-openssl mingw-w64-x86_64-zlib make
+          install: mingw-w64-x86_64-gcc make mingw-w64-x86_64-openssl mingw-w64-x86_64-zlib
 
       - name: Build Debug
+        shell: msys2 {0}
         run: make STATIC_FLAG=-static dev -j4
 
       - name: Build Release
+        shell: msys2 {0}
         run: make STATIC_FLAG=-static rel -j4

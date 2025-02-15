@@ -31,6 +31,8 @@ LDFLAGS_DEV = -L$(OPENSSL_DIR) -L$(ZLIB_DIR) -lssl -lcrypto -lz
 # On windows these libs are needed (otherwise you end up using funs you do not link with)
 ifeq ($(OS),Windows_NT)
 	LDFLAGS_DEV += -lws2_32 -lcrypt32
+else 
+	LDFLAGS_DEV += 
 endif
 LDFLAGS_REL = $(CXX_REL_OPT_FLAGS) $(LDFLAGS_DEV)
 
