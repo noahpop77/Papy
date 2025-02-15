@@ -88,21 +88,22 @@ make --version
 ```
 ![Make version](docs/documentationImages/makeVersion.png "Make version")
 
-The command to build Papy is the following once you are in the project root directory. 
+The command to build Papy in release mode is the following once you are in the project root directory. 
 ```bash
-make build
+make rel
 ```
-![Make build](docs/documentationImages/makeBuild.png "Make build")
+Note: by default, it uses dynamic linking. For distribution you probably want static linking, add `STATIC_FLAG=-static` to your make command (e.g. `make rel STATIC_FLAG=-static`). Changing this (switching to dynamic from static / vice versa) requires `make clean` (*actually, it only needs re-lininking, which you can also enforce by deleting executable*)
 
+![Make build](docs/documentationImages/makeBuild.png "Make build")
 ### Initial Setup
 Now we got Papy up built and ready for you! Lets get our hands on it now. After the build the Papy Binary/executable will be in the `bin` directory.
 
-Navigate to the `Papy/bin` directory:
+Navigate to the `Papy/bin/rel` directory:
 ```bash
-cd bin
+cd bin/rel
 ```
 
-Papy will be in the `bin` directory. Run the Papy help command to get a sense of what flags you can make use of and to verify that papy was built successfully.
+Papy will be in the `bin/rel` directory (or in `bin/dev` if build in development mode (`make dev`). Run the Papy help command to get a sense of what flags you can make use of and to verify that papy was built successfully.
 ```bash
 ./papy --help
 ```
