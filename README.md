@@ -90,7 +90,7 @@ make --version
 
 The command to build Papy is the following once you are in the project root directory. 
 ```bash
-make build
+make rebuild
 ```
 ![Make build](docs/documentationImages/makeBuild.png "Make build")
 
