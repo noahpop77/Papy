@@ -26,8 +26,9 @@ void apiClient::setEndpoint(const std::string& endpoint) {
         std::cerr << "Runtime Error: Invalid endpoint address. Endpoint must start /" << std::endl;
         std::cerr << "Working example: --endpoint \"/printJson\"" << std::endl;
         std::exit(EXIT_FAILURE);
-    }
-    if (endpoint.empty()) {
+    } else if (endpoint.empty()) {
+        this->endpoint = endpoint;
+    } else {
         this->endpoint = endpoint;
     }
 }
@@ -88,9 +89,9 @@ std::string apiClient::sendPOSTRequest() {
     
     const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
 
-    if (endpoint.empty()) {
-        return "Error: Endpoint is not set.";
-    }
+    // if (endpoint.empty()) {
+    //     return "Error: Endpoint is not set.";
+    // }
     if (payload.empty()) {
         return "Error: Payload is not set.";
     }
