@@ -114,8 +114,11 @@ std::string apiClient::sendPOSTRequest() {
         } else {
             return "Server returned error: " + std::to_string(res->status);
         }
-    }
-    return "Error: " + errorToString(res.error());
+    }  
+
+    return "POST request failed (" + errorToString(res.error()) + ") to endpoint '" + requestCombined + "' with payload: " + payload.dump();
+    
+    // return "Error: " + errorToString(res.error());
 }
 
 std::string apiClient::errorToString(httplib::Error err) {
