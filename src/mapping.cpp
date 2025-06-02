@@ -736,6 +736,37 @@ namespace mapping{
    }
    )";
 
+
+   const std::string LIGHTHOUSE_PAYLOAD_TEMPLATE = R"(
+   {
+      "clientStatus":"{PLACEHOLDER}",
+      "clientName":"{PLACEHOLDER}",
+      "numberOfLicenses":"{PLACEHOLDER}",
+      "licenseType":"{PLACEHOLDER}",
+      "licenseTermStart":"{PLACEHOLDER}",
+      "licenseTermEnd":"{PLACEHOLDER}"
+   }
+   )";
+
+   const std::string CLIENT_STATUS = R"(
+   {
+   "1":"Renewed",
+   "2":"Expired",
+   "3":"Up-sale",
+   "4":"Shrink",
+   "5":"Churn"
+   }
+   )";
+
+   const std::string LICENSE_TYPE = R"(
+   {
+   "1":"Enterprise",
+   "2":"Legacy",
+   "3":"Pre-project"
+   }
+   )";
+
+
    const std::string SPORTS_CARS = R"(
    {
    "1": "Ferrari F8 Tributo",

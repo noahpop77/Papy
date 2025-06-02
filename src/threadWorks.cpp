@@ -16,6 +16,7 @@
 #include "millisecondClock.hpp"
 #include "myRandom.hpp"
 #include "oceanBuilder.hpp"
+#include "lighthouseBuilder.hpp"
 #include "threadWorks.hpp"
 
 using json = nlohmann::json;
@@ -79,6 +80,9 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
         response = client.sendPOSTRequest();
     } else if (payload == "ocean") {
         client.setPayload(oceanBuilder::randomOcean().dump());
+        response = client.sendPOSTRequest();
+    } else if (payload == "lighthouse") {
+        client.setPayload(lighthouseBuilder::randomLighthouse().dump());
         response = client.sendPOSTRequest();
     } else {
 
