@@ -26,9 +26,8 @@ void apiClient::setEndpoint(const std::string& endpoint) {
         std::cerr << "Runtime Error: Invalid endpoint address. Endpoint must start /" << std::endl;
         std::cerr << "Working example: --endpoint \"/printJson\"" << std::endl;
         std::exit(EXIT_FAILURE);
-    } else if (endpoint.empty()) {
-        this->endpoint = endpoint;
-    } else {
+    }
+    if (endpoint.empty()) {
         this->endpoint = endpoint;
     }
 }
