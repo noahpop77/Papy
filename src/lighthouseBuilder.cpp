@@ -45,7 +45,7 @@ std::string lighthouseBuilder::getRandomFromJson(std::string mappingTemplate) {
     return values[randomIndex]; // Return a random value from the file
 }
 
-std::string formatDateISO(time_t t, const std::string& fixedTime = "18:30:00.000Z") {
+std::string lighthouseBuilder::formatDateISO(time_t t, const std::string& fixedTime = "18:30:00.000Z") {
     std::tm* tm_ptr = std::gmtime(&t);
     std::ostringstream oss;
     oss << std::put_time(tm_ptr, "%Y-%m-%dT") << fixedTime;
