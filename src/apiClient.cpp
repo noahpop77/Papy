@@ -65,47 +65,27 @@ std::string apiClient::sendGETRequest() {
 }
 
 std::string apiClient::sendPOSTRequest() {
-    // TODO: Add const std::string& apiToken to handle bearer tokens
-    // Set the Authorization and Content-Type headers
-    /*
-    httplib::Headers headers = {
-        {"Authorization", "Bearer " + apiToken},
-        {"Content-Type", "application/json"}
-    };
-
-    res = sslClient->Post(requestCombined.c_str(), payload.dump(), "application/json");
-    res = client->Post(requestCombined.c_str(), payload.dump(), "application/json");
-
-    These lines need to be changed to 
-
-    res = sslClient->Post(requestCombined.c_str(), payload.dump(), headers);
-    res = client->Post(requestCombined.c_str(), payload.dump(), headers);
-    */
-
-   httplib::Headers headers = {
-        {"Content-Encoding", "gzip"},
-        {"Content-Type", "application/json"}
-    };
-    
-    const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
-
-    // if (endpoint.empty()) {
-    //     return "Error: Endpoint is not set.";
-    // }
     if (payload.empty()) {
         return "Error: Payload is not set.";
     }
+
+    const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
+
+    httplib::Headers headers = {
+        {"Content-Type", "application/json"},
+        {"Content-Encoding", "gzip"}  // Optional: remove if not gzipping
+    };
 
     httplib::Result res;
 
     if (sslClient) {
         sslClient->set_read_timeout(7, 0);
         sslClient->set_write_timeout(7, 0);
-        res = sslClient->Post(requestCombined.c_str(), headers, payload, "application/json");
+        res = sslClient->Post(requestCombined.c_str(), headers, payload.dump(), "application/json");
     } else if (client) {
-        res = client->Post(requestCombined.c_str(), headers, payload, "application/json");
+        res = client->Post(requestCombined.c_str(), headers, payload.dump(), "application/json");
     } else {
-        std::cout << "Neither client nor sslClient is initialized." << std::endl;
+        return "Error: No HTTP client initialized.";
     }
 
     if (res) {
@@ -114,12 +94,11 @@ std::string apiClient::sendPOSTRequest() {
         } else {
             return "Server returned error: " + std::to_string(res->status);
         }
-    }  
+    }
 
     return "POST request failed (" + errorToString(res.error()) + ") to endpoint '" + requestCombined + "' with payload: " + payload.dump();
-    
-    // return "Error: " + errorToString(res.error());
 }
+
 
 std::string apiClient::errorToString(httplib::Error err) {
     switch (err) {
