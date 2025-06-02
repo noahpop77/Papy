@@ -13,6 +13,6 @@ public:
 private:
     // Internal function to get a random key from a JSON file
     static std::string getRandomFromJson(std::string mappingTemplate);
-    static std::string formatDateISO(time_t t, const std::string& fixedTime = "18:30:00.000Z");
+    static std::string formatDateISO(time_t t);
     static void generateTwoDatesOneOrThreeYearsApart(std::string& dateA, std::string& dateB);
 };
