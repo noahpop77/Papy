@@ -28,6 +28,9 @@ json lighthouseBuilder::randomLighthouse() {
     lighthouseTemplate["licenseTermStart"] = dateA;
     lighthouseTemplate["licenseTermEnd"] = dateB;
 
+    std::string payloadStr = lighthouseTemplate.dump();
+    std::cout << "Generated payload JSON: " << payloadStr << std::endl;
+
     return lighthouseTemplate;
 }
 

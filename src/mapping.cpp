@@ -739,12 +739,12 @@ namespace mapping{
 
    const std::string LIGHTHOUSE_PAYLOAD_TEMPLATE = R"(
    {
-      "clientStatus":"{PLACEHOLDER}",
-      "clientName":"{PLACEHOLDER}",
-      "numberOfLicenses":"{PLACEHOLDER}",
-      "licenseType":"{PLACEHOLDER}",
-      "licenseTermStart":"{PLACEHOLDER}",
-      "licenseTermEnd":"{PLACEHOLDER}"
+   "clientStatus":"{PLACEHOLDER}",
+   "clientName":"{PLACEHOLDER}",
+   "numberOfLicenses":"{PLACEHOLDER}",
+   "licenseType":"{PLACEHOLDER}",
+   "licenseTermStart":"{PLACEHOLDER}",
+   "licenseTermEnd":"{PLACEHOLDER}"
    }
    )";
 
