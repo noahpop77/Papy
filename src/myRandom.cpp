@@ -13,7 +13,7 @@ thread_local std::random_device myRandom::rd;
 thread_local std::mt19937 myRandom::gen(myRandom::rd());
 
 int myRandom::generateRandomInt(int min, int max) {
-    static std::uniform_int_distribution<> distrib(min, max);
+    std::uniform_int_distribution<> distrib(min, max);
     return distrib(gen);
 }
 
