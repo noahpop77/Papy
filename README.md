@@ -504,6 +504,14 @@ std::cout 	<< "\rTotal Sent: " << totalPayloadsSent
 
 - Went from 7.6k 20k Up until now we were using blinders basically. This is also the part of the journey where we realise that running the Papy client, the GO endpoint and the PostgreSQL database on the same box is causing unintended performance issues for the non papy services LOL. HOWEVER even with this in mind. We can still reach 12k requests per second to the box. Even though all CPU cores are at 100% cause of the Papy client.
 
+
+
+### Decisions
+
+MT19337 vs default_random_engine, minstd_random
+
+
+
 ### Todo:
 
 - Create make based github actions to auto compile per commit
