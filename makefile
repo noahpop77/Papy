@@ -7,7 +7,7 @@ ZLIB_DIR = $(SRC_DIR)/dependencies/gzip/include
 
 # Compiler and flags
 CXX = g++
-CXXFLAGS_COMMON = -I$(OPENSSL_DIR) -I$(ZLIB_DIR) -MMD -MP -O3   # Include dependency tracking
+CXXFLAGS_COMMON = -I$(OPENSSL_DIR) -I$(ZLIB_DIR) -MMD -MP -O3 -g -fno-omit-frame-pointer  # Include dependency tracking
 ifeq ($(shell uname), Darwin)
 	CXXFLAGS = -std=c++2b $(CXXFLAGS_COMMON)  # macOS-specific flags
 else

@@ -5,3 +5,5 @@ bin
 obj
 chaosTesting
 docs/drawio
+*.data.*
+*.data

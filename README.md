@@ -547,3 +547,19 @@ Little present if you read all the way to the end:
 <div align="center">
     <img src="https://static.wikia.nocookie.net/sans-nagito/images/1/12/Papyrus.png/revision/latest?cb=20200609055655" alt="AutoGen Logo" width="100">
 </div>
+
+
+
+### Benchmarking
+
+```bash
+Timeout 100s sudo perf record -F 99 -g -- ./bin/papy --threads 16 --endpoint "/printJson" --target "http://localhost" --payload ocean
+```
+
+```bash
+cd ~/Documents/devenv/perfTest/FlameGraph
+cp ~/Documents/devenv/Papy/perf.data ./
+perf script > out.perf
+./stackcollapse-perf.pl out.perf > out.folded
+./flamegraph.pl out.folded > flamegraph.svg
+```
