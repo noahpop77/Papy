@@ -70,6 +70,9 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
     std::transform(payload.begin(), payload.end(), payload.begin(), ::tolower);
     std::string response;
 
+
+    // This is where you add additional options for handling different preset payloads
+    // You add another option to the conditional and however you want to handle it
     if (payload.empty()) {
         response = client.sendGETRequest();
     } else if (payload == "lol") {
