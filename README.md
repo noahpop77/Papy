@@ -552,6 +552,7 @@ Little present if you read all the way to the end:
 
 ### Benchmarking
 
+#### Method 1
 ```bash
 Timeout 100s sudo perf record -F 99 -g -- ./bin/papy --threads 16 --endpoint "/printJson" --target "http://localhost" --payload ocean
 ```
@@ -562,4 +563,17 @@ cp ~/Documents/devenv/Papy/perf.data ./
 perf script > out.perf
 ./stackcollapse-perf.pl out.perf > out.folded
 ./flamegraph.pl out.folded > flamegraph.svg
+```
+
+
+#### Method 2
+```bash
+./bin/papy --threads 16 --endpoint "/printJson" --target "http://127.0.0.1" --payload ocean
+```
+
+```bash
+perf record -F 99 -p 5824 -g -- sleep 60
+perf script > out.perf
+./stackcollapse-perf.pl out.perf > out.folded
+./flamegraph.pl out.folded > kernel.svg
 ```
