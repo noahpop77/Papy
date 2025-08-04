@@ -16,6 +16,7 @@
 #include "millisecondClock.hpp"
 #include "myRandom.hpp"
 #include "oceanBuilder.hpp"
+#include "configPayload.hpp"
 #include "threadWorks.hpp"
 
 using json = nlohmann::json;
@@ -83,6 +84,9 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
     } else if (payload == "ocean") {
         client.setPayload(oceanBuilder::randomOcean().dump());
         response = client.sendPOSTRequest();
+    } else if (payload == "payload.json") {
+        client.setPayload(configPayload::readConfig().dump());
+        response = client.sendPOSTRequest();
     } else {
 
         std::ifstream f(payload);
@@ -133,7 +137,7 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_update_time);
 
         // 20 Hz refresh rate = less than screen, almost max human eye
-        constexpr unsigned int DELAY_MS = 25;
+        constexpr unsigned int DELAY_MS = 75;
         if (elapsed.count() < DELAY_MS) {
             // It's been less than the delay time, so skip displaying an update.
             return;
@@ -162,7 +166,7 @@ void threadWorks::runWorkerThread(const std::string& targetURL, const std::strin
     clock.start();
     while (isProgramActive) {
         sendRequest(client, verbose, payload, clock);
-
+        
         if (payloadCount > 0 && --payloadCount == 0) break;
 
         if (rateLimit) {
