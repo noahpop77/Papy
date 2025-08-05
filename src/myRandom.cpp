@@ -89,6 +89,7 @@ bool myRandom::getRandomVectorFromJSON(std::vector<std::string>& participantData
     std::vector<std::string> keys;
     bool success = getKeysFromJsonObject(keys, jsonObject);
 
+    // unsure if 
     if (!success) {
         return false;
     }
@@ -97,8 +98,11 @@ bool myRandom::getRandomVectorFromJSON(std::vector<std::string>& participantData
     // std::mt19937 generate(randomDevice());
     std::uniform_int_distribution<> distrib(0, keys.size() - 1);
 
-    for (int i = 0; i < count; i++) {
-        int randomIndex = distrib(gen);
+    // comparison of size_t and int can lead to integer under/overflow from wrapping due to narrowing conversion of signdness 
+    for (size_t i = 0; i < count; i++) {
+        // size_t here will ensure that no signed conversion will happen
+        // while I would imagine that the number of keys would never exceed int_max it could happen and lead to undefined behaviour
+        size_t randomIndex = distrib(gen);
         // int index = randomIndex % keys.size();
         participantData.push_back(keys[randomIndex]);
         //participantData.push_back(keys.at(index));
