@@ -33,7 +33,7 @@ void cliHelper::printBanner (std::string& target, std::string& endpoint, int& nu
     std::cout <<  "==========================================" << std::endl;
 }
 
-void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& payloadCount, int& rateLimit, int& ramp, int& spike, std::string& target, std::string& endpoint, bool& verbose, std::string& payload, std::string& parameter) {
+void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& payloadCount, int& rateLimit, int& ramp, int& spike, std::string& target, std::string& endpoint, bool& verbose, std::string& payload, std::string& parameter, std::string& bearer, std::string& authorization) {
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         try {
@@ -62,6 +62,10 @@ void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& pay
                 if (payload.empty()) throw std::runtime_error("Error: Payload value cannot be empty.");
             } else if (arg == "--verbose" || arg == "-v") {
                 verbose = true;
+            } else if (arg == "--bearer" || arg == "-b") {
+                bearer = argv[++i];
+            } else if (arg == "--authorization" || arg == "-a") {
+                authorization = argv[++i];
             } else {
                 throw std::runtime_error("Error: Unknown option '" + arg + "'. Use --help for usage.");
             }
