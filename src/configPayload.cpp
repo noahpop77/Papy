@@ -51,7 +51,6 @@ void configPayload::replacePlaceholders(nlohmann::json& jsonObject) {
 
 }
 
-
 void configPayload::loadPayload() {
     if (!basePayload.is_null()) return;
 

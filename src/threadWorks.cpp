@@ -71,6 +71,7 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
     std::transform(payload.begin(), payload.end(), payload.begin(), ::tolower);
     std::string response;
 
+    // TODO: Test out what it takes to implement reading the custom payload as a file path from anywhere rather than from just in the same directory as the binary executable file.
 
     // This is where you add additional options for handling different preset payloads
     // You add another option to the conditional and however you want to handle it
