@@ -28,11 +28,10 @@ json oceanBuilder::randomOcean() {
 
 // Static helper function to get a random value from a given JSON file
 std::string oceanBuilder::getRandomFromJson() {
-    json items = json::parse(mapping::SPORTS_CARS);
 
     // Collect all values
     std::vector<std::string> values;
-    for (auto it = items.begin(); it != items.end(); ++it) {
+    for (auto it = mapping::SPORTS_CARS_JSON.begin(); it != mapping::SPORTS_CARS_JSON.end(); ++it) {
         values.push_back(it.value());
     }
 

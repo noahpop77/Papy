@@ -13,6 +13,7 @@ namespace mapping {
     extern const nlohmann::json MATCH_TEMPLATE_JSON;
     extern const std::string OCEAN_PAYLOAD_TEMPLATE;
     extern const std::string SPORTS_CARS;
+    extern const nlohmann::json SPORTS_CARS_JSON;
     
 }
 

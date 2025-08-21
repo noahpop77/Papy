@@ -16,6 +16,7 @@
 #include "millisecondClock.hpp"
 #include "myRandom.hpp"
 #include "oceanBuilder.hpp"
+#include "configPayload.hpp"
 #include "threadWorks.hpp"
 
 using json = nlohmann::json;
@@ -66,20 +67,27 @@ std::string threadWorks::gzip_compress(const std::string &data) {
     return compressed;
 }
 
-void threadWorks::sendRequest(apiClient& client, bool verbose, std::string payload, millisecondClock& clock) {
+void threadWorks::sendRequest(apiClient& client, bool verbose, std::string payload, millisecondClock& clock, std::string bearer, std::string authorization) {
     std::transform(payload.begin(), payload.end(), payload.begin(), ::tolower);
     std::string response;
 
+    // TODO: Test out what it takes to implement reading the custom payload as a file path from anywhere rather than from just in the same directory as the binary executable file.
+
+    // This is where you add additional options for handling different preset payloads
+    // You add another option to the conditional and however you want to handle it
     if (payload.empty()) {
-        response = client.sendGETRequest();
+        response = client.sendGETRequest(bearer, authorization);
     } else if (payload == "lol") {
         nlohmann::json lolPayload = matchBuilder::randomMatch();
         std::string compressedLolPayload = gzip_compress(lolPayload.dump());
         client.setPayload(compressedLolPayload);
-        response = client.sendPOSTRequest();
+        response = client.sendPOSTRequest(bearer, authorization);
     } else if (payload == "ocean") {
         client.setPayload(oceanBuilder::randomOcean().dump());
-        response = client.sendPOSTRequest();
+        response = client.sendPOSTRequest(bearer, authorization);
+    } else if (payload == "payload.json") {
+        client.setPayload(configPayload::readConfig().dump());
+        response = client.sendPOSTRequest(bearer, authorization);
     } else {
 
         std::ifstream f(payload);
@@ -96,7 +104,7 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
         }
 
         client.setPayload(jsonPayload.dump());
-        response = client.sendPOSTRequest();
+        response = client.sendPOSTRequest(bearer, authorization);
 
     }
 
@@ -130,7 +138,7 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_update_time);
 
         // 20 Hz refresh rate = less than screen, almost max human eye
-        constexpr unsigned int DELAY_MS = 25;
+        constexpr unsigned int DELAY_MS = 75;
         if (elapsed.count() < DELAY_MS) {
             // It's been less than the delay time, so skip displaying an update.
             return;
@@ -150,7 +158,7 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
 }
 
 // Orchestrates the sending of requests and main loop for program
-void threadWorks::runWorkerThread(const std::string& targetURL, const std::string& endpoint, bool verbose, int payloadCount, int rateLimit, int ramp, int spike, std::string payload, std::string parameter) {
+void threadWorks::runWorkerThread(const std::string& targetURL, const std::string& endpoint, bool verbose, int payloadCount, int rateLimit, int ramp, int spike, std::string payload, std::string parameter, std::string bearer, std::string authorization) {
     millisecondClock clock;
     apiClient client(targetURL);
     client.setEndpoint(endpoint);
@@ -158,8 +166,8 @@ void threadWorks::runWorkerThread(const std::string& targetURL, const std::strin
 
     clock.start();
     while (isProgramActive) {
-        sendRequest(client, verbose, payload, clock);
-
+        sendRequest(client, verbose, payload, clock, bearer, authorization);
+        
         if (payloadCount > 0 && --payloadCount == 0) break;
 
         if (rateLimit) {

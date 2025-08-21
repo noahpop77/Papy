@@ -41,15 +41,23 @@ void apiClient::setPayload(const nlohmann::json& payload) {
     this->payload = payload;
 }
 
-std::string apiClient::sendGETRequest() {
+std::string apiClient::sendGETRequest(std::string bearer, std::string authorization) {
     const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
 
     httplib::Result res;
 
+    httplib::Headers headers = {};
+    if (!bearer.empty()) {
+        headers.insert({"Authorization", "Bearer " + bearer});
+    }
+    if (!authorization.empty()) {
+        headers.insert({"Authorization", "Basic " + authorization});
+    }
+
     if (sslClient) {
-        res = sslClient->Get(requestCombined.c_str());
+        res = sslClient->Get(requestCombined.c_str(), headers);
     } else if (client) {
-        res = client->Get(requestCombined.c_str());
+        res = client->Get(requestCombined.c_str(), headers);
     } else {
         std::cout << "Neither client nor sslClient is initialized." << std::endl;
     }
@@ -64,28 +72,25 @@ std::string apiClient::sendGETRequest() {
     return "Error: " + errorToString(res.error());
 }
 
-std::string apiClient::sendPOSTRequest() {
-    // TODO: Add const std::string& apiToken to handle bearer tokens
-    // Set the Authorization and Content-Type headers
-    /*
-    httplib::Headers headers = {
-        {"Authorization", "Bearer " + apiToken},
-        {"Content-Type", "application/json"}
-    };
-
-    res = sslClient->Post(requestCombined.c_str(), payload.dump(), "application/json");
-    res = client->Post(requestCombined.c_str(), payload.dump(), "application/json");
-
-    These lines need to be changed to 
-
-    res = sslClient->Post(requestCombined.c_str(), payload.dump(), headers);
-    res = client->Post(requestCombined.c_str(), payload.dump(), headers);
-    */
+std::string apiClient::sendPOSTRequest(std::string bearer, std::string authorization) {
 
    httplib::Headers headers = {
-        {"Content-Encoding", "gzip"},
-        {"Content-Type", "application/json"}
+        {"Content-Encoding", "gzip"}
     };
+
+// TODO: The post requests seem to be sending 2 "Content-Type", "application/json" with this version of the header variable. Maybe it is implied in post requests that it is of type "Content-Type", "application/json"
+//    httplib::Headers headers = {
+//         {"Content-Encoding", "gzip"},
+//         {"Content-Type", "application/json"}
+//     };
+
+    if (!bearer.empty()) {
+        headers.insert({"Authorization", "Bearer " + bearer});
+    }
+    if (!authorization.empty()) {
+        headers.insert({"Authorization", "Basic " + authorization});
+    }
+
     
     const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
 

@@ -11,7 +11,7 @@ public:
     static void parseArguments(int argc, char* argv[], int& numThreads, int& payloadCount, int& rateLimit,
                                 int& ramp, int& spike, std::string& target, std::string& endpoint,
                                 bool& verbose, std::string& payload,
-                                std::string& parameter);
+                                std::string& parameter, std::string& bearer, std::string& authorization);
 
     static void displayHelp();
 

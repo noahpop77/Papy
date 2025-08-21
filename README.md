@@ -504,6 +504,14 @@ std::cout 	<< "\rTotal Sent: " << totalPayloadsSent
 
 - Went from 7.6k 20k Up until now we were using blinders basically. This is also the part of the journey where we realise that running the Papy client, the GO endpoint and the PostgreSQL database on the same box is causing unintended performance issues for the non papy services LOL. HOWEVER even with this in mind. We can still reach 12k requests per second to the box. Even though all CPU cores are at 100% cause of the Papy client.
 
+
+
+### Decisions
+
+MT19337 vs default_random_engine, minstd_random
+
+
+
 ### Todo:
 
 - Create make based github actions to auto compile per commit
@@ -539,3 +547,33 @@ Little present if you read all the way to the end:
 <div align="center">
     <img src="https://static.wikia.nocookie.net/sans-nagito/images/1/12/Papyrus.png/revision/latest?cb=20200609055655" alt="AutoGen Logo" width="100">
 </div>
+
+
+
+### Benchmarking
+
+#### Method 1
+```bash
+Timeout 100s sudo perf record -F 99 -g -- ./bin/papy --threads 16 --endpoint "/printJson" --target "http://localhost" --payload ocean
+```
+
+```bash
+cd ~/Documents/devenv/perfTest/FlameGraph
+cp ~/Documents/devenv/Papy/perf.data ./
+perf script > out.perf
+./stackcollapse-perf.pl out.perf > out.folded
+./flamegraph.pl out.folded > flamegraph.svg
+```
+
+
+#### Method 2
+```bash
+./bin/papy --threads 16 --endpoint "/printJson" --target "http://127.0.0.1" --payload ocean
+```
+
+```bash
+perf record -F 99 -p 5824 -g -- sleep 60
+perf script > out.perf
+./stackcollapse-perf.pl out.perf > out.folded
+./flamegraph.pl out.folded > kernel.svg
+```

@@ -33,7 +33,7 @@ void cliHelper::printBanner (std::string& target, std::string& endpoint, int& nu
     std::cout <<  "==========================================" << std::endl;
 }
 
-void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& payloadCount, int& rateLimit, int& ramp, int& spike, std::string& target, std::string& endpoint, bool& verbose, std::string& payload, std::string& parameter) {
+void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& payloadCount, int& rateLimit, int& ramp, int& spike, std::string& target, std::string& endpoint, bool& verbose, std::string& payload, std::string& parameter, std::string& bearer, std::string& authorization) {
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         try {
@@ -62,6 +62,10 @@ void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& pay
                 if (payload.empty()) throw std::runtime_error("Error: Payload value cannot be empty.");
             } else if (arg == "--verbose" || arg == "-v") {
                 verbose = true;
+            } else if (arg == "--bearer" || arg == "-b") {
+                bearer = argv[++i];
+            } else if (arg == "--authorization" || arg == "-a") {
+                authorization = argv[++i];
             } else {
                 throw std::runtime_error("Error: Unknown option '" + arg + "'. Use --help for usage.");
             }
@@ -77,20 +81,23 @@ void cliHelper::parseArguments(int argc, char* argv[], int& numThreads, int& pay
 
 void cliHelper::displayHelp() {
     std::cout << "Usage: ./program [options] {value}\n"
-            << "Options:\n"
-            << "  -h, --help                Show this help message\n"
-            << "  -th, --threads [num]      Number of threads to run (default: 1)\n"
-            << "  -ta, --target [url]       Target URL ex. \"http://mtrack.com\"\n"
-            << "  -e, --endpoint [path]     API endpoint ex. \"/addMatch\"\n"
-            << "  -pa, --parameter [string]  String of parameters that will be appeneded to address.\n"
-            << "  -c, --count [num]         Number of payloads to send\n"
-            << "  -r, --rate [ms]           Rate limit in milliseconds between sent payloads\n"
-            << "  -v, --verbose             Enable verbose output\n"
-            << "  -s, --spike [ms]          Each thread will send data in random spikes \n"
-            << "  -ra, --ramp [ms]           Each thread will send data gradually faster\n"
-            << "  -p, --payload [filepath]  Option to specify file path to .JSON payload \n"
-            << "\nExample: \n"
-            << "./papy --threads 4 --target \"http://127.0.0.1\" --endpoint \"/printJson\" --payload ocean --verbose --rate 2000\n";
+              << "Options:\n"
+              << "  -h, --help                Show this help message\n"
+              << "  -th, --threads [num]      Number of threads to run (default: 1)\n"
+              << "  -ta, --target [url]       Target URL ex. \"http://mtrack.com\"\n"
+              << "  -e, --endpoint [path]     API endpoint ex. \"/addMatch\"\n"
+              << "  -pa, --parameter [string] String of parameters that will be appended to address\n"
+              << "  -c, --count [num]         Number of payloads to send\n"
+              << "  -r, --rate [ms]           Rate limit in milliseconds between sent payloads\n"
+              << "  -ra, --ramp [ms]          Gradually increase the sending rate over time\n"
+              << "  -s, --spike [ms]          Introduce random spikes in sending rate\n"
+              << "  -v, --verbose             Enable verbose output\n"
+              << "  -p, --payload [filepath]  File path to JSON payload\n"
+              << "  -b, --bearer [token]      Bearer token for Authorization header\n"
+              << "  -a, --authorization [token] Basic token for Authorization header\n"
+              << "\nExample: \n"
+              << "./papy --threads 4 --target \"http://127.0.0.1\" --endpoint \"/printJson\" "
+                 "--payload ocean.json --verbose --rate 2000 --ramp 500 --spike 300 --bearer myToken\n";
 }
 
 bool cliHelper::isValidInt(double num) {
