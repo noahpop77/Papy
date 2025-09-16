@@ -67,8 +67,7 @@ std::string threadWorks::gzip_compress(const std::string &data) {
     return compressed;
 }
 
-void threadWorks::sendRequest(apiClient& client, bool verbose, std::string payload, millisecondClock& clock, std::string bearer, std::string authorization) {
-    std::transform(payload.begin(), payload.end(), payload.begin(), ::tolower);
+void threadWorks::sendRequest(apiClient& client, bool verbose, const std::string& payload, const millisecondClock& clock, const std::string& bearer, const std::string& authorization) {
     std::string response;
 
     // TODO: Test out what it takes to implement reading the custom payload as a file path from anywhere rather than from just in the same directory as the binary executable file.
@@ -158,11 +157,13 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
 }
 
 // Orchestrates the sending of requests and main loop for program
-void threadWorks::runWorkerThread(const std::string& targetURL, const std::string& endpoint, bool verbose, int payloadCount, int rateLimit, int ramp, int spike, std::string payload, std::string parameter, std::string bearer, std::string authorization) {
+void threadWorks::runWorkerThread(const std::string& targetURL, const std::string& endpoint, bool verbose, int payloadCount, int rateLimit, int ramp, int spike, std::string payload, const std::string& parameter, const std::string& bearer, const std::string& authorization) {
     millisecondClock clock;
     apiClient client(targetURL);
     client.setEndpoint(endpoint);
     client.setParameter(parameter);
+
+    std::transform(payload.begin(), payload.end(), payload.begin(), ::tolower);
 
     clock.start();
     while (isProgramActive) {

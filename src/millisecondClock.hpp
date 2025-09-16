@@ -8,10 +8,10 @@ public:
     void start();
 
     // Get the elapsed time in milliseconds since the clock was started
-    long long perSecondCheck();
+    long long perSecondCheck() const;
 
     // Get the elapsed time in milliseconds since the clock was started
-    long long elapsedMilliseconds();
+    long long elapsedMilliseconds() const;
 
     // Reset the clock to the current time
     void resetClock();
