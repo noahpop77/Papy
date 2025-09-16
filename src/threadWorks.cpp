@@ -147,12 +147,16 @@ void threadWorks::sendRequest(apiClient& client, bool verbose, std::string paylo
         last_update_time = now;
 
         // Print updated info on the same line
-        std::cout << "\rTotal Sent: " << totalPayloadsSent
+        long long ms = clock.elapsedMilliseconds();
+        int avg = (float)totalPayloadsSent / (float)ms * 1000.0f;
+
+        std::cout << "\033[2K\r" // clears entire line
+                  << "Total Sent: " << totalPayloadsSent
                   << " | Successful: " << totalPayloadsSuccessful
                   << " | Failed: " << (totalPayloadsSent - totalPayloadsSuccessful)
                   << " | Packets/s: " << packetsPerSecond
-                  << " | Elapsed Time: " << clock.elapsedMilliseconds()
-		  << "     "  // clear a few characters past the end
+                  << " | Average/s: " << avg
+                  << " | Elapsed Time: " << ms
                   << std::flush;
     }
 }
