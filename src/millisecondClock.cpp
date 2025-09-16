@@ -9,14 +9,14 @@ void millisecondClock::start() {
 }
 
 // Get the elapsed time in milliseconds since the clock was started
-long long millisecondClock::perSecondCheck() {
+long long millisecondClock::perSecondCheck() const {
     auto now = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - currentStart);
     return duration.count();
 }
 
 // Get the elapsed time in milliseconds since the clock was started
-long long millisecondClock::elapsedMilliseconds() {
+long long millisecondClock::elapsedMilliseconds() const {
     auto now = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - initialStart);
     return duration.count();

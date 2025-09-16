@@ -41,7 +41,7 @@ void apiClient::setPayload(const nlohmann::json& payload) {
     this->payload = payload;
 }
 
-std::string apiClient::sendGETRequest(std::string bearer, std::string authorization) {
+std::string apiClient::sendGETRequest(const std::string& bearer, const std::string& authorization) const {
     const std::string requestCombined = (endpoint.empty() ? "/" : endpoint) + (parameter.empty() ? "" : parameter);
 
     httplib::Result res;
@@ -72,7 +72,7 @@ std::string apiClient::sendGETRequest(std::string bearer, std::string authorizat
     return "Error: " + errorToString(res.error());
 }
 
-std::string apiClient::sendPOSTRequest(std::string bearer, std::string authorization) {
+std::string apiClient::sendPOSTRequest(const std::string& bearer, const std::string& authorization) const {
 
    httplib::Headers headers = {
         {"Content-Encoding", "gzip"}

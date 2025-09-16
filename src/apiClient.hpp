@@ -16,8 +16,8 @@ public:
     void setParameter(const std::string& parameter);
     void setPayload(const nlohmann::json& payload);
 
-    std::string sendGETRequest(std::string bearer, std::string authorization);
-    std::string sendPOSTRequest(std::string bearer, std::string authorization);
+    std::string sendGETRequest(const std::string& bearer, const std::string& authorization) const;
+    std::string sendPOSTRequest(const std::string& bearer, const std::string& authorization) const;
 
 private:
     std::unique_ptr<httplib::Client> client;
@@ -27,5 +27,5 @@ private:
     std::string parameter;
     nlohmann::json payload;
 
-    std::string errorToString(httplib::Error err);
+    static std::string errorToString(httplib::Error err);
 };
