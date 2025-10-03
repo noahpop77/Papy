@@ -18,7 +18,7 @@ json configPayload::readConfig() {
 
     json parsedConfig = basePayload;
     replacePlaceholders(parsedConfig);
-
+    
     return parsedConfig;
 }
 

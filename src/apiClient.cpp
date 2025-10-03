@@ -38,6 +38,7 @@ void apiClient::setParameter(const std::string& parameter) {
 }
 
 void apiClient::setPayload(const nlohmann::json& payload) {
+    // std::cout << payload.dump(4) << std::endl; 
     this->payload = payload;
 }
 

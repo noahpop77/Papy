@@ -82,6 +82,8 @@ Then you need to navigate to the cloned Papy directory:
 cd Papy
 ```
 
+> Note: On Ubuntu based (and other linux systems) systems you might have to install `libssl-dev` and `zlib1g-dev`
+
 You will need functional build system. In the case of Papy I used makefile to build the project. You can determine if you have make installed by using:
 ```bash
 make --version
