@@ -7,3 +7,4 @@ chaosTesting
 docs/drawio
 *.data.*
 *.data
+payload.json
